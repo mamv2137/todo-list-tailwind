@@ -1,30 +1,45 @@
 import React from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+
 import "./index.css";
-import AppStyles from "./AppStyles.styles.tw";
+
+import Sidebar from './components/SideBar'
+import Header from './components/Header';
+import ToDo from './Container/ToDo'
+import Favorite from "./Container/Favorites";
+
+import {AppStyles, MainContainer, ContentContainer} from "./AppStyles.styles.tw";
+import { ModalProvider } from "./components/Modal/context";
+import CreateTask from "./components/CreateTask";
 
 const App = () => {
   return (
-    <AppStyles>
-      <h1>Greetings Earthling</h1>
-      <p>
-        Welcome to your Create-React-App / TailwindCSS / Styled Components
-        template
-      </p>
-      <h2>Resources / Documentation</h2>
-      <ul>
-        <li>
-          <a href="https://reactjs.org/docs/create-a-new-react-app.html">
-            ReactJS
-          </a>
-        </li>
-        <li>
-          <a href="https://tailwindcss.com/">TailwindCSS</a>
-        </li>
-        <li>
-          <a href="https://styled-components.com/">Styled Components</a>
-        </li>
-      </ul>
-    </AppStyles>
+    <ModalProvider>
+      <AppStyles>
+        <MainContainer>
+          <CreateTask />
+          <Router>
+            <Sidebar />
+            <ContentContainer>
+              <Header />
+              <Switch>
+                <Route exact path="/">
+                  <ToDo />
+                </Route>
+                <Route path="/favorites">
+                  <Favorite />
+                </Route>
+              </Switch>
+            </ContentContainer>
+          </Router>
+        </MainContainer>
+      </AppStyles>
+    </ModalProvider>
   );
 };
 
